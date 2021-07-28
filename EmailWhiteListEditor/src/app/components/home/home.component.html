@@ -1,0 +1,16 @@
+﻿<h1>Email White List Editor</h1>
+<h2>Please search by any character that should contains part of domain or address</h2>
+
+<div>
+	
+	<span>Press Enter to search Or Add new</span>: <input placeholder="Type...." [(ngModel)]="keyword" (keyup)="handleKeyUp($event)"  /><button (click)="add()">Add</button>
+
+</div>
+
+<div *ngFor="let m of result;let index = index;">
+	
+	<div>
+		<input [value]="m"/> <button (click)="edit(m)">Edit</button> <button>Delete</button>
+	</div>
+
+</div>
