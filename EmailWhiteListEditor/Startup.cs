@@ -26,6 +26,7 @@ namespace EmailWhiteListEditor
 		{
 			services.AddMvc();
 
+			services.AddScoped<Interfaces.IWhiteListIO, IO.WhiteListIO>(x => { return new IO.WhiteListIO(Configuration["WhiteLIstPath"]); });
 		}
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +48,8 @@ namespace EmailWhiteListEditor
 
 			app.UseDefaultFiles();
 			app.UseStaticFiles();
+
+			
 		}
 	}
 }

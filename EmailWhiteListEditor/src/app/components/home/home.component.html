@@ -3,14 +3,15 @@
 
 <div>
 	
-	<span>Press Enter to search Or Add new</span>: <input placeholder="Type...." [(ngModel)]="keyword" (keyup)="handleKeyUp($event)"  /><button (click)="add()">Add</button>
+	<span>Press Enter to search Or Add new</span>: <input placeholder="Type...." [(ngModel)]="keyword" (keyup)="handleKeyUp($event)"  />
+	<button (click)="add()">Add</button>
 
 </div>
 
-<div *ngFor="let m of result;let index = index;">
+<div *ngFor="let m of result; let index = index; let bk = m;">
 	
 	<div>
-		<input [value]="m"/> <button (click)="edit(m)">Edit</button> <button>Delete</button>
+		<input [value]="m"/> <button (click)="edit(bk, m)">Edit</button> <button  (click)="delete(m)">Delete</button>
 	</div>
 
 </div>

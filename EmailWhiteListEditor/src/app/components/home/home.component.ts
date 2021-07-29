@@ -12,11 +12,13 @@ export class HomeComponent implements OnInit {
     result: any[] = [];        
 	keyword: string = '';
 
-    constructor(private hserv: HomeService) {
-        this.hserv.GetHomeMessage().subscribe(response => this.result = response);
+    constructor(private hserv: HomeService) 
+	{
+        this.hserv.GetEntries(this.keyword).subscribe(response => this.result = response);
     }
 
     ngOnInit(): void {
+
     }
 
 	add(){
@@ -42,13 +44,24 @@ export class HomeComponent implements OnInit {
 
 	}
 
+	delete(key: string)
+	{
+		console.log('deleting for: ' + key);
+
+		this.hserv.DeleteEntry(key).subscribe(response => this.result = response);
+
+	}
+
 	handleKeyUp(e: any){
 		
-		if(e.keyCode === 13)
+		this.keyword = this.keyword || '';
+
+		// if(e.keyCode === 13)
+		if(this.keyword.length > 2)
 		{
 			this.hserv.GetEntries(this.keyword).subscribe(response => this.result = response);
-
 		}
+
 		console.log("typed with " + this.keyword)
 	 }
 

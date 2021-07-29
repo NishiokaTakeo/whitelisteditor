@@ -9,7 +9,7 @@
 			"type": "coreclr",
 			"request": "launch",
 			"preLaunchTask": "build",
-			"program": "${workspaceFolder}/EmailWhiteListEditor/bin/Debug/netcoreapp2.0/EmailWhiteListEditor.dll",
+			"program": "${workspaceFolder}/EmailWhiteListEditor/bin/Debug/netcoreapp2.1/EmailWhiteListEditor.dll",
 			"args": [],
 			"cwd": "${workspaceFolder}/EmailWhiteListEditor",
 			"stopAtEntry": false,
