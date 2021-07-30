@@ -41,9 +41,10 @@ namespace EmailWhiteListEditor.IO
 
 		public string EditEntry(string key, Line entry)
 		{
-			if (!ReadAllLines().ToList().Exists(x => Line.Parse(x).Entiry == key))
+
+			if (!entry.FormatOK())
 			{
-				throw new EmailWhiteListEditor.Exceptions.EntryNotFoundException(key);
+				throw new EmailWhiteListEditor.Exceptions.EntryNotGoodFormatException(entry);
 			}
 
 			DeleteEntry(key);

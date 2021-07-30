@@ -12,25 +12,31 @@ namespace EmailWhiteListEditor.Models
 
 		//string _path;
 
-		public IEnumerable<Line> Entries = new List<Line>();
+		public IEnumerable<Line> Entries 
+		{ 
+			get {
+					return GetEntries();
+				} 
+		}
+
 		IWhiteListIO _io;
 
 		public WhiteList(IWhiteListIO io )
 		{
 			//_path = path;
 			_io = io;
-			init();
+			//init();
 		}
 
-		void init()
-		{
-			var lines = _io.ReadAllLines();
+		//void init()
+		//{
+		//	var lines = _io.ReadAllLines();
 
-			Entries = lines.Select(x =>
-			{
-				return Line.Parse(x);
-			});
-		}
+		//	Entries = lines.Select(x =>
+		//	{
+		//		return Line.Parse(x);
+		//	});
+		//}
 
 		public bool Exists(Line line)
 		{
@@ -52,10 +58,24 @@ namespace EmailWhiteListEditor.Models
 			_io.DeleteEntry(key);
 		}
 
-		public void EditEntry(string key, Line entry)
+		public string EditEntry(string key, Line entry)
 		{
-			_io.EditEntry(key, entry);
+			return _io.EditEntry(key, entry);
 		}
 
+		IEnumerable<Line> GetEntries()
+		{
+			var lines = _io.ReadAllLines();
+
+			var fileterd = lines.Select(x =>
+			{
+				return Line.Parse(x);
+			})
+			.Where(x => !(x.Entiry.Trim().StartsWith("#") || string.IsNullOrWhiteSpace(x.Entiry.Trim())))
+			
+			.OrderBy(x => x.Entiry);
+
+			return fileterd;
+		}
 	}
 }

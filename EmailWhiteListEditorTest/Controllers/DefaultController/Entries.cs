@@ -11,7 +11,7 @@ namespace EmailWhiteListEditorTest.Controllers
 		[SetUp]
 		public void Setup()
 		{
-			var injector = new Mock.MockWhiteLIst();
+			var injector = new Mock.MockWhiteListIO();
 
 			injector.Create( new string[] { "affinitywindows.com.au\tOK\n", "yahoo.com.au\tOK\n", "test@yahoo.com.au\tOK\n", "ng@ng.com.au\tOK\n" });
 

@@ -20,7 +20,15 @@ export class HomeService {
         
 		return this.http.post(`api/default/entries/`+keyword,"")
             .map((res: Response) => {
-				debugger;
+				return res.json();
+			})
+            .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+    }
+    
+	GetAllEntries(): Observable<any[]> {
+        
+		return this.http.post(`api/default/entries/all`,"")
+            .map((res: Response) => {
 				return res.json();
 			})
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
@@ -30,7 +38,12 @@ export class HomeService {
         
 		return this.http.post(`api/default/add/`+ keyword,{})
             .map((res: Response) => res.json())
-            .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
+            .catch((error: any) => 
+			
+			{
+				debugger
+				return Observable.throw(error.json().error || 'Server error'); 
+			})
     }
 
 
@@ -41,9 +54,9 @@ export class HomeService {
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
     }
 
-	EditEntry(keyword: string): Observable<any[]> {
+	EditEntry(key: string,keyword: string): Observable<any[]> {
         
-		return this.http.post(`api/default/edit/`,"item="+keyword)
+		return this.http.post(`api/default/edit/${key}/${keyword}`,{})
             .map((res: Response) => res.json())
             .catch((error: any) => Observable.throw(error.json().error || 'Server error'))
     }

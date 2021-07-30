@@ -25,15 +25,24 @@ namespace EmailWhiteListEditor.Models
 			_raw = entry;
 		}
 
+		public Line(string entry, string flag)
+		{
+			Entiry = entry.Trim();
+			Flag = flag.Trim();
+		}
 
 		static public Line Parse(string raw)
 		{
+			raw = raw?.Trim();
+
 			var line = new Line();
+			//raw = (new Regex(@"(\s|\t|\r|\n)+")).Replace(raw, @"\t");
+
 			var items = raw.Split('\t');
 
-			line .Entiry = items.FirstOrDefault();
+			line .Entiry = items.FirstOrDefault()?.Trim();
 
-			line .Flag = items.Skip(1).FirstOrDefault()?.Replace("\n", "");
+			line .Flag = items.Skip(1).FirstOrDefault()?.Trim().Replace("\n", "");
 
 			return line;
 		}
@@ -41,14 +50,16 @@ namespace EmailWhiteListEditor.Models
 		public bool FormatOK()
 		{
 
-			Regex regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-			Match match = regex.Match(this.Entiry);
+			//Regex regex = new Regex(@"^([\w\.\-0-9]+)@([\w\-]+)((\.(\w){2,3})+)$");
+			//Match match = regex.Match(this.Entiry);
 
-			Regex regex2 = new Regex(@"^((?!-)[A-Za-z0-9-]{1, 63}(?<!-)\\.)+[A-Za-z]{2, 6}$");
-			Match match2 = regex.Match(this.Entiry);
+			this.Entiry = this.Entiry?.Trim();
+
+			Regex regex2 = new Regex(@"^[^@\s]+\.[^@\s]+$");
+			Match match2 = regex2.Match(this.Entiry);
 
 
-			if (match.Success || match2.Success)
+			if (IsValidEmail(this.Entiry) || match2.Success)
 			{
 				return true;
 			}
@@ -64,5 +75,19 @@ namespace EmailWhiteListEditor.Models
 
 			return str;
 		}
+
+		bool IsValidEmail(string email)
+		{
+			try
+			{
+				var addr = new System.Net.Mail.MailAddress(email);
+				return addr.Address == email;
+			}
+			catch
+			{
+				return false;
+			}
+		}
+
 	}
 }

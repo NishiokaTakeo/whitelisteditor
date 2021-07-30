@@ -8,10 +8,9 @@
 
 </div>
 
-<div *ngFor="let m of result; let index = index; let bk = m;">
-	
+<div *ngFor="let m of result; let i=index; trackBy:trackByFn">
 	<div>
-		<input [value]="m"/> <button (click)="edit(bk, m)">Edit</button> <button  (click)="delete(m)">Delete</button>
+		<input [(ngModel)]="result[i]" name="result{{index}}" /> <button (click)="edit(i)">Edit</button> <button (click)="delete(m,i)">Delete</button>
 	</div>
 
 </div>

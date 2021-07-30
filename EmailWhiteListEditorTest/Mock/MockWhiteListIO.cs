@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace EmailWhiteListEditorTest.Mock
 {
-	internal class MockWhiteLIst : EmailWhiteListEditor.Interfaces.IWhiteListIO
+	internal class MockWhiteListIO : EmailWhiteListEditor.Interfaces.IWhiteListIO
 	{
 		List<string> _entries = new List<string>();
 
@@ -16,12 +16,13 @@ namespace EmailWhiteListEditorTest.Mock
 
 		public void AppendAllLines(IEnumerable<Line> entries)
 		{
-			throw new NotImplementedException();
+			foreach (var entry in entries)
+				_entries.Add(entry.GetLineForFile());
 		}
 
 		public void DeleteEntry(string key)
 		{
-			throw new NotImplementedException();
+			_entries = _entries.Where(x => Line.Parse(x).Entiry != key).ToList();
 		}
 
 		public string[] ReadAllLines()
@@ -31,9 +32,10 @@ namespace EmailWhiteListEditorTest.Mock
 
 		public string EditEntry(string key, Line entry)
 		{
-			if (!ReadAllLines().ToList().Exists(x => Line.Parse(x).Entiry == key))
+
+			if (!entry.FormatOK())
 			{
-				throw new EmailWhiteListEditor.Exceptions.EntryNotFoundException(key);
+				throw new EmailWhiteListEditor.Exceptions.EntryNotGoodFormatException(entry);
 			}
 
 			DeleteEntry(key);

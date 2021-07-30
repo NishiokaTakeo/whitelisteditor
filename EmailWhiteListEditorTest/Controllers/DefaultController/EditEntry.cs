@@ -22,21 +22,14 @@ namespace EmailWhiteListEditorTest.Controllers
 		[SetUp]
 		public void Setup()
 		{
-			var injector = new Mock.MockWhiteLIst();
+			var injector = new Mock.MockWhiteListIO();
 
-			injector.Create(new string[] { "affinitywindows.com.au\tOK\n", "yahoo.com.au\tOK\n", "test@yahoo.com.au\tOK\n", "ng@ng.com.au\tOK\n" });
+			injector.Create(new string[] { "affinitywindows.com.au\tOK\n", "yahoo.com.au\tOK\n", "test@yahoo.com.au\tOK\n", "notgoodformat\tOK\n", "ng@ng.com.au\tOK\n" });
 			
 			_controller = new EmailWhiteListEditor.Controllers.DefaultController(injector);
 		}
 
 		
-		[Test]
-		public void GivenNotFoundKeyThenException()
-		{
-
-			// Act & Assert
-			Assert.Catch<EmailWhiteListEditor.Exceptions.EntryNotFoundException>( () => _controller.EditEntry("notfound", "shouldnotbefound.com.au") );
-		}
 
 
 		[Test(Description = "Format exception")]
@@ -45,6 +38,20 @@ namespace EmailWhiteListEditorTest.Controllers
 
 			// Act & Assert
 			Assert.Catch<EmailWhiteListEditor.Exceptions.EntryNotGoodFormatException>(() => _controller.EditEntry("should raise format exception", "only"));
+		}
+
+		[Test(Description = "Edit Success")]
+		[TestCase("test2@yahoo.com.au")]
+		public void GivenEntryThenEdited(string entry)
+		{
+			// Arrange
+
+			// Act
+			var actual = _controller.EditEntry("test@yahoo.com.au", entry);
+
+			// Assert
+			Assert.AreEqual(new Line(entry, "OK").GetLineForFile(), actual);
+			
 		}
 
 
