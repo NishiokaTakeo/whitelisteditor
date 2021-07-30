@@ -1,16 +1,43 @@
-﻿<h1>Email White List Editor</h1>
-<h2>Please search by any character that should contains part of domain or address</h2>
+﻿<section class="py-5">
+	<div class="container">
+	  <h1 class="mt-5 bg-info text-center text-white py-2">Email White List Editor</h1>
+	  <p class="">Please search by any character that should contains part of domain or address</p>
+	  <div>
 
-<div>
+		<div class="form-inline">
+			<div class="form-group">
+			  <p class="form-control-static">Press Enter to search Or Add new</p>
+			</div>
+			<div class="form-group">
+			  <label for="keyword" class="sr-only">Domain/Email</label>
+			  <input type="text" id="keyword" class="form-control" placeholder="Type...." [(ngModel)]="keyword" (keyup)="handleKeyUp($event)"  />
+			</div>
+			<button (click)="add()" class="btn btn-primary">Add as new item</button>
+		</div>
+
+	  </div>
+	  <div style="padding:2em 0em"><strong>{{result.length}} items found.</strong></div>
+	  <table class="table table-striped">
+	  	<thead>
+	  		<tr>
+	  			<th>#</th>
+	  			<th>Domain/Email</th>
+	  			<th></th>
+	  			<th></th>
+	  		</tr>
+	  	</thead>
+	  	<tbody>
+
+	  		<tr *ngFor="let m of result; let i=index; trackBy:trackByFn">
+				<th scope="row"  style="width:1em;max-width:3em; text-align: center;">{{i + 1}}</th>
+				<td><input [(ngModel)]="result[i]" name="result{{index}}" style="width:100%;padding-left:0.5em;" /></td>
+				<td style="width:5em"><button (click)="edit(i)" class="btn btn-warning" >Edit</button></td>
+				<td style="width:5em"><button (click)="delete(m,i)" class="btn btn-danger">Delete</button></td>
+			</tr>
+	  	</tbody>
+	  </table>
+
+	  
 	
-	<span>Press Enter to search Or Add new</span>: <input placeholder="Type...." [(ngModel)]="keyword" (keyup)="handleKeyUp($event)"  />
-	<button (click)="add()">Add</button>
-
-</div>
-
-<div *ngFor="let m of result; let i=index; trackBy:trackByFn">
-	<div>
-		<input [(ngModel)]="result[i]" name="result{{index}}" /> <button (click)="edit(i)">Edit</button> <button (click)="delete(m,i)">Delete</button>
-	</div>
-
-</div>
+	  </div>
+  </section>

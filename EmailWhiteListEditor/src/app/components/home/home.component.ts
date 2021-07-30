@@ -2,6 +2,7 @@
 
 import { HomeService } from "../../core/services/home.service";
 
+
 @Component({
     selector: 'home',
     templateUrl: 'home.component.html'
